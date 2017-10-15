@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Shelve from './shelve'
+import Shelf from './shelf'
 
 class MyReads extends React.Component {
   state = {
@@ -23,9 +23,9 @@ class MyReads extends React.Component {
         </div>
         <div className="list-books-content">
           <div>
-            <Shelve books={this.state.reading} title='Currently Reading'/>
-            <Shelve books={this.state.wantToRead} title='Want to Read'/>
-            <Shelve books={this.state.read} title='Read'/>
+            <Shelf books={this.state.reading} title='Currently Reading'/>
+            <Shelf books={this.state.wantToRead} title='Want to Read'/>
+            <Shelf books={this.state.read} title='Read'/>
           </div>
         </div>
         <div className="open-search">

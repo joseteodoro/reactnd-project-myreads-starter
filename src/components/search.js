@@ -23,7 +23,6 @@ class Search extends React.Component {
       return BooksAPI.search(query, 20)
   }
 
-
   render () {
     return (<div className="search-books">
       <div className="search-books-bar">

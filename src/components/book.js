@@ -1,5 +1,5 @@
 import React from 'react'
-import ShelveCharger from './shelve-charger'
+import ShelveCharger from './shelf-charger'
 
 export default (props) => (
   <div className="book">
