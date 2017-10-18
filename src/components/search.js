@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from '../BooksAPI'
 import Book from './book'
+
 class Search extends React.Component {
 
   constructor (props) {
@@ -10,6 +11,10 @@ class Search extends React.Component {
       query: '',
       queryResults: []
     }
+  }
+
+  componentDidMount () {
+    this.textInput.focus()
   }
 
   updateQuery (param) {
@@ -26,7 +31,7 @@ class Search extends React.Component {
   }
 
   onSearch (query) {
-    return BooksAPI.search(query, 20)
+    return BooksAPI.search(query, 25)
   }
 
   render () {
@@ -34,22 +39,14 @@ class Search extends React.Component {
       <div className='search-books-bar'>
         <Link className='close-search' to='/'>Close</Link>
         <div className='search-books-input-wrapper'>
-          {/*
-            NOTES: The search from BooksAPI is limited to a particular set of search terms.
-            You can find these search terms here:
-            https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-            However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-            you don't find a specific author or title. Every search is limited by search terms.
-          */}
-          <input type='text' placeholder='Search by title or author' value={this.state.query} onChange={(event) => this.updateQuery(event.target.value.trim())} />
+          <input type='text' placeholder='Search by title or author' value={this.state.query} onChange={(event) => this.updateQuery(event.target.value.trim())} ref={(input) => { this.textInput = input }} />
         </div>
       </div>
       <div className='search-books-results'>
         <ol className='books-grid'>
           {this.state.queryResults && this.state.queryResults.length ? (
             this.state.queryResults.map((book) => {
-              return <li key={book.title}><Book book={book} /></li>
+              return <li key={book.title}><Book onChangeShelf={this.props.onChangeShelf} book={book} /></li>
             })) : (<div>Did'nt match anything yet!</div>)}
         </ol>
       </div>

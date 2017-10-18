@@ -3,28 +3,63 @@ import { Route } from 'react-router-dom'
 import './App.css'
 import Search from './components/search'
 import MyReads from './components/list-books'
-
+import * as BooksAPI from './BooksAPI'
 
 class BooksApp extends React.Component {
-  state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
+  constructor (props) {
+    super(props)
+    this.state = {
+      currentlyReading: [],
+      wantToRead: [],
+      read: []
+    }
+    this.onChangeShelf = this.onChangeShelf.bind(this)
+  }
+
+  splitShelves (books) {
+    let splited = {
+      currentlyReading: [],
+      wantToRead: [],
+      read: []
+    }
+
+    books.forEach((book) => {
+      splited[book.shelf].push(book)
+    })
+    return splited
+  }
+
+  componentDidMount () {
+    BooksAPI.getAll().then((books) => {
+      this.setState(this.splitShelves(books))
+    })
+  }
+
+  onChangeShelf (book, targetShelf) {
+    const sourceShelf = book.shelf
+    BooksAPI.update(book, targetShelf)
+      .then(() => {
+        this.setState((prevState) => {
+          let newState = {}
+          Object.assign(newState, prevState)
+          if (sourceShelf) {
+            newState[sourceShelf] = prevState[sourceShelf].filter(b => (b.title !== book.title))
+          }
+          newState[targetShelf] = prevState[targetShelf].concat(book).sort()
+          return newState
+        })
+      })
   }
 
   render () {
     return (
-      <div className="app">
+      <div className='app'>
         <Route exact path='/' render={() => (
-          <MyReads />
-        )}/>
+          <MyReads onChangeShelf={this.onChangeShelf} state={this.state} />
+        )} />
         <Route path='/search' render={({ history }) => (
-          <Search />
-        )}/>
+          <Search onChangeShelf={this.onChangeShelf} state={this.state} />
+        )} />
       </div>
     )
   }
