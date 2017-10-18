@@ -49,7 +49,7 @@ class Search extends React.Component {
         <ol className='books-grid'>
           {this.state.queryResults && this.state.queryResults.length ? (
             this.state.queryResults.map((book) => {
-              return <li key={book.title}><Book book={{'title': book.title, 'author': book.authors, 'cover': book.imageLinks.smallThumbnail}} /></li>
+              return <li key={book.title}><Book book={book} /></li>
             })) : (<div>Did'nt match anything yet!</div>)}
         </ol>
       </div>

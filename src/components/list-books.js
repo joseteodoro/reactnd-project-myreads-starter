@@ -13,6 +13,7 @@ class MyReads extends React.Component {
       wantToRead: [],
       read: []
     }
+    this.onChangeShelf = this.onChangeShelf.bind(this)
   }
 
   split (books) {
@@ -34,6 +35,23 @@ class MyReads extends React.Component {
     })
   }
 
+  onChangeShelf (book, targetShelf) {
+    console.log(`Calling using ${book}  and ${targetShelf}`)
+    const sourceShelf = book.shelf
+    BooksAPI.update(book, targetShelf)
+      .then(() => {
+        this.setState(prevState => {
+          const src = prevState[sourceShelf].filter(b => (b.title !== book.title))
+          const tgt = prevState[targetShelf].concat(book)
+          let state = {}
+          Object.assign(state, prevState)
+          state[sourceShelf] = src
+          state[targetShelf] = tgt.sort()
+          return state
+        })
+      })
+  }
+
   render () {
     return (
       <div className='list-books'>
@@ -43,7 +61,7 @@ class MyReads extends React.Component {
         <div className='list-books-content'>
           <div>
             {shelves.map((item) => {
-              return <Shelf key={`${item.key}`} books={this.state[item.key]} title={`${item.value}`} />
+              return <Shelf onChangeShelf={this.onChangeShelf} key={`${item.key}`} books={this.state[item.key]} title={`${item.value}`} />
             })}
           </div>
         </div>
