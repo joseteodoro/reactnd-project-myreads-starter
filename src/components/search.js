@@ -18,9 +18,7 @@ class Search extends React.Component {
   }
 
   updateQuery (param) {
-    if (param === '') {
-      this.setState({queryResults: [], query: ''})
-    } else {
+    if (param !== '') {
       this.onSearch(param).then(results => {
         if (results.length) {
           this.setState({queryResults: results, query: param})
@@ -28,9 +26,8 @@ class Search extends React.Component {
           this.setState({queryResults: [], query: param})
         }
       })
-      .catch(() => {
-        this.setState({queryResults: [], query: param})
-      })
+    } else {
+      this.setState({queryResults: [], query: ''})
     }
   }
 
