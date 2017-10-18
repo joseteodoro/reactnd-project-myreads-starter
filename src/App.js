@@ -43,7 +43,7 @@ class BooksApp extends React.Component {
           let newState = {}
           Object.assign(newState, prevState)
           if (sourceShelf) {
-            newState[sourceShelf] = prevState[sourceShelf].filter(b => (b.title !== book.title))
+            newState[sourceShelf] = prevState[sourceShelf].filter(b => (b.id !== book.id))
           }
           newState[targetShelf] = prevState[targetShelf].concat(book).sort()
           return newState

@@ -22,7 +22,11 @@ class Search extends React.Component {
       this.setState({queryResults: [], query: ''})
     } else {
       this.onSearch(param).then(results => {
-        this.setState({queryResults: results, query: param})
+        if (results.length) {
+          this.setState({queryResults: results, query: param})
+        } else {
+          this.setState({queryResults: [], query: param})
+        }
       })
       .catch(() => {
         this.setState({queryResults: [], query: param})
@@ -46,7 +50,7 @@ class Search extends React.Component {
         <ol className='books-grid'>
           {this.state.queryResults && this.state.queryResults.length ? (
             this.state.queryResults.map((book) => {
-              return <li key={book.title}><Book onChangeShelf={this.props.onChangeShelf} book={book} /></li>
+              return <li key={book.id}><Book onChangeShelf={this.props.onChangeShelf} book={book} /></li>
             })) : (<div>Did'nt match anything yet!</div>)}
         </ol>
       </div>

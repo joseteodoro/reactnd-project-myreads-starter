@@ -7,7 +7,7 @@ export default (props) => (
     <div className='bookshelf-books'>
       <ol className='books-grid'>
         {props.books.map((book) => {
-          return <li key={book.title}><Book book={book} onChangeShelf={props.onChangeShelf} /></li>
+          return <li key={book.id}><Book book={book} onChangeShelf={props.onChangeShelf} /></li>
         })}
       </ol>
     </div>
