@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import Shelf from './shelf'
 import shelves from './shelves'
 
-export default (props) => (
+const MyReads = (props) => (
   <div className='list-books'>
     <div className='list-books-title'>
       <h1>MyReads</h1>
@@ -20,3 +21,10 @@ export default (props) => (
     </div>
   </div>
 )
+
+MyReads.propTypes = {
+  state: PropTypes.object.isRequired,
+  onChangeShelf: PropTypes.func.isRequired
+}
+
+export default MyReads

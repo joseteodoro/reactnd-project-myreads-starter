@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import * as BooksAPI from '../BooksAPI'
 import Book from './book'
 
@@ -53,6 +54,10 @@ class Search extends React.Component {
       </div>
     </div>)
   }
+}
+
+Search.propTypes = {
+  onChangeShelf: PropTypes.func.isRequired
 }
 
 export default Search
