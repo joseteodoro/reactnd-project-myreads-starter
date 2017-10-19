@@ -11,9 +11,10 @@ const MyReads = (props) => (
     </div>
     <div className='list-books-content'>
       <div>
-        {shelves.map((item) => {
-          return <Shelf onChangeShelf={props.onChangeShelf} key={`${item.key}`} books={props.state[item.key]} title={`${item.value}`} />
-        })}
+        {shelves.filter((item) => item.key !== 'outOfShelves')
+          .map((item) => {
+            return <Shelf onChangeShelf={props.onChangeShelf} key={`${item.key}`} books={props.state[item.key]} title={`${item.value}`} />
+          })}
       </div>
     </div>
     <div className='open-search'>

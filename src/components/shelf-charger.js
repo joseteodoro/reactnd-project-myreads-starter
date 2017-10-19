@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 
 const ShelfCharger = (props) => (
   <div className='book-shelf-changer'>
-    <select value={props.book.shelf} onChange={(event) => {
+    <select value={props.book.shelf || 'outOfShelves'} onChange={(event) => {
       props.onChangeShelf(props.book, event.target.value)
     }}>
       <option disabled value='none'>Move to...</option>
-      {props.shelves.map((item) => {
-        return <option key={`${item.key}`} value={`${item.key}`}>{`${item.value}`}</option>
-      })}
+      {props.shelves.filter((item) => item.key !== 'outOfShelves' || !props.book.shelf)
+        .map((item) => {
+          return <option key={`${item.key}`} value={`${item.key}`}>{`${item.value}`}</option>
+        })}
     </select>
   </div>
 )

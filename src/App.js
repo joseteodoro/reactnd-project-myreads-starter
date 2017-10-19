@@ -11,7 +11,8 @@ class BooksApp extends React.Component {
     this.state = {
       currentlyReading: [],
       wantToRead: [],
-      read: []
+      read: [],
+      '': []
     }
     this.onChangeShelf = this.onChangeShelf.bind(this)
   }
@@ -37,6 +38,7 @@ class BooksApp extends React.Component {
 
   onChangeShelf (book, targetShelf) {
     const sourceShelf = book.shelf
+    book.shelf = targetShelf
     BooksAPI.update(book, targetShelf)
       .then(() => {
         this.setState((prevState) => {
