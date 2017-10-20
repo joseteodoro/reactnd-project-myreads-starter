@@ -10,19 +10,50 @@ class Search extends React.Component {
     super(props)
     this.state = {
       query: '',
-      queryResults: []
+      queryResults: [],
+      currentlyReadingSet: new Set(props.books.currentlyReading.map((book) => book.id)),
+      wantToReadSet: new Set(props.books.wantToRead.map((book) => book.id)),
+      readSet: new Set(props.books.read.map((book) => book.id))
     }
+    this.changeShelf = this.changeShelf.bind(this)
+  }
+
+  changeShelf (book, target) {
+    this.setState((prevState) => {
+      const newState = Object.assign({}, prevState)
+      if (book.shelf) {
+        newState[`${book.shelf}Set`].delete(book.id)
+      }
+      newState[`${target}Set`].add(book.id)
+      return newState
+    })
+    this.props.onChangeShelf(book, target)
   }
 
   componentDidMount () {
     this.textInput.focus()
   }
 
+  fillAdditionalData (books) {
+    return books.map((book) => {
+      if (this.state.currentlyReadingSet.has(book.id)) {
+        book.shelf = 'currentlyReading'
+      }
+      if (this.state.wantToReadSet.has(book.id)) {
+        book.shelf = 'wantToRead'
+      }
+      if (this.state.readSet.has(book.id)) {
+        book.shelf = 'read'
+      }
+      return book
+    })
+  }
+
   updateQuery (param) {
     if (param !== '') {
       this.onSearch(param).then(results => {
         if (results.length) {
-          this.setState({queryResults: results, query: param})
+          this.setState({queryResults: this.fillAdditionalData(results), query: param})
         } else {
           this.setState({queryResults: [], query: param})
         }
@@ -48,7 +79,7 @@ class Search extends React.Component {
         <ol className='books-grid'>
           {this.state.queryResults && this.state.queryResults.length ? (
             this.state.queryResults.map((book) => {
-              return <li key={book.id}><Book onChangeShelf={this.props.onChangeShelf} book={book} /></li>
+              return <li key={book.id}><Book onChangeShelf={this.changeShelf} book={book} /></li>
             })) : (<div>Did'nt match anything yet!</div>)}
         </ol>
       </div>

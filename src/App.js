@@ -17,22 +17,12 @@ class BooksApp extends React.Component {
     this.onChangeShelf = this.onChangeShelf.bind(this)
   }
 
-  splitShelves (books) {
-    let splited = {
-      currentlyReading: [],
-      wantToRead: [],
-      read: []
-    }
-
-    books.forEach((book) => {
-      splited[book.shelf].push(book)
-    })
-    return splited
-  }
-
   componentDidMount () {
     BooksAPI.getAll().then((books) => {
-      this.setState(this.splitShelves(books))
+      const read = books.filter(e => e.shelf === 'read')
+      const wantToRead = books.filter(e => e.shelf === 'wantToRead')
+      const currentlyReading = books.filter(e => e.shelf === 'currentlyReading')
+      this.setState({read, wantToRead, currentlyReading})
     })
   }
 
@@ -60,7 +50,7 @@ class BooksApp extends React.Component {
           <MyReads onChangeShelf={this.onChangeShelf} state={this.state} />
         )} />
         <Route path='/search' render={({ history }) => (
-          <Search onChangeShelf={this.onChangeShelf} state={this.state} />
+          <Search onChangeShelf={this.onChangeShelf} books={this.state} />
         )} />
       </div>
     )
