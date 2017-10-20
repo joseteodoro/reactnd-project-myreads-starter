@@ -12,14 +12,14 @@ To move a book, just click on the green circle in the book's cover and select a 
 
 To search and add books on your shelves, please use the `Add`/`+` button located on botton-right corner. Search using the book's name or author's name and then use the green circle in the same way described in the previous section.
 
-## Installing and running Instructions
+## Install and run instructions
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
 ## Known issues
 
-* there is a issue related with the time spent to load the query results. I used `Set`s to optimize the code, but seems I have some issue when I'm resolving the `promisse` to fill the result-grid.
+* there is an issue related with the time spent to load the query results. I used `Set`s to optimize the code, but seems I have some issue when I'm resolving the `promisse` to fill the result-grid.
 
 ## License
 
