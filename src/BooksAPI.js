@@ -4,16 +4,10 @@ const api = 'https://reactnd-books-api.udacity.com'
 const localStorageMock = {
   getItem: () => {},
   setItem: () => {},
-  clear: () => {},
-  mock: true
-}
-
-const fetchMock = function () {
-  return {then: function (cb) { cb([]) }}
+  clear: () => {}
 }
 
 const storage = global.localStorage || localStorageMock
-const fetch = (storage.mock && fetchMock) || fetch
 
 // Generate a unique token for storing your bookshelf data on the backend server.
 let token = storage.token
